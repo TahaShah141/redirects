@@ -5,14 +5,11 @@ import connectMongo from "@/lib/connectMongo";
 
 export const dynamic = "force-dynamic";
 
-type RouteParams = {
-  params: {
-    key: string;
-  };
-};
-
-export async function GET(request: NextRequest, { params }: RouteParams): Promise<NextResponse> {
-  const { key } = await params;
+export async function GET(
+  request: NextRequest,
+  context: { params: Promise<{ key: string }> }
+): Promise<NextResponse> {
+  const { key } = await context.params;
 
   await connectMongo();
 
